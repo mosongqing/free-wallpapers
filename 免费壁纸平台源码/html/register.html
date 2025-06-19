@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册 - 简爱壁纸</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/animate.css/3.7.0/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="Shortcut Icon" href="../img/simple.png"/>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            background: #f5f6fa;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.9));
+            padding: 30px 0;
+        }
+        
+        .register-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .register-form {
+            flex: 1;
+            padding: 60px 40px;
+            background: white;
+        }
+        
+        .register-info {
+            flex: 1;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .register-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('../img/pattern.png');
+            opacity: 0.1;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            height: auto;
+            border: none;
+            border-bottom: 2px solid #eee;
+            border-radius: 0;
+            box-shadow: none !important;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .floating-label {
+            position: absolute;
+            pointer-events: none;
+            left: 15px;
+            top: 12px;
+            transition: 0.2s ease all;
+            color: #95a5a6;
+        }
+        
+        .form-control:focus ~ .floating-label,
+        .form-control:not(:placeholder-shown) ~ .floating-label {
+            top: -20px;
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+        
+        .btn-register {
+            background: var(--primary-color);
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 50px;
+        }
+        
+        .btn-register:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .password-strength {
+            height: 4px;
+            margin-top: 10px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            background: #eee;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-label {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #95a5a6;
+        }
+
+        @media (max-width: 768px) {
+            .register-container {
+                flex-direction: column;
+                margin: 20px;
+            }
+            .register-info, .register-form {
+                padding: 40px 20px;
+            }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="register-container animated fadeInUp">
+                <div class="register-form">
+                    <h2 class="text-center" style="color: var(--secondary-color); margin-bottom: 40px;">创建账号</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="username" required placeholder=" ">
+                            <label class="floating-label">用户名</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" required placeholder=" ">
+                            <label class="floating-label">密码</label>
+                            <div class="password-strength">
+                                <div class="password-strength-bar"></div>
+                            </div>
+                            <div class="strength-label"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="confirmPassword" required placeholder=" ">
+                            <label class="floating-label">确认密码</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-register btn-success btn-block">注 册</button>
+                        </div>
+                        <div class="text-center">
+                            <a href="login.html" class="btn btn-link">已有账号？立即登录</a>
+                            <span class="text-muted">|</span>
+                            <a href="index.html" class="btn btn-link">返回首页</a>
+                        </div>
+                    </form>
+                    <div id="message" style="text-align: center; margin-top: 20px;"></div>
+                </div>
+                
+                <div class="register-info">
+                    <h2 style="font-size: 32px; margin-bottom: 40px;">加入简爱壁纸</h2>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div>
+                            <h4>个性化收藏</h4>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">创建专属收藏夹</p>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div>
+                            <h4>互动交流</h4>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">分享你的观点</p>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div>
+                            <h4>会员特权</h4>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">尊享会员功能</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#password').on('input', function() {
+                var password = $(this).val();
+                var strength = 0;
+                var strengthText = '';
+                
+                if(password.length >= 8) strength += 1;
+                if(/[A-Z]/.test(password)) strength += 1;
+                if(/[0-9]/.test(password)) strength += 1;
+                if(/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+                var $strengthBar = $('.password-strength-bar');
+                var $strengthLabel = $('.strength-label');
+                
+                switch(strength) {
+                    case 0:
+                        $strengthBar.css({'width': '0%', 'background-color': '#eee'});
+                        strengthText = '请输入密码';
+                        break;
+                    case 1:
+                        $strengthBar.css({'width': '25%', 'background-color': '#ff4444'});
+                        strengthText = '密码强度：弱';
+                        break;
+                    case 2:
+                        $strengthBar.css({'width': '50%', 'background-color': '#ffbb33'});
+                        strengthText = '密码强度：中';
+                        break;
+                    case 3:
+                        $strengthBar.css({'width': '75%', 'background-color': '#00C851'});
+                        strengthText = '密码强度：强';
+                        break;
+                    case 4:
+                        $strengthBar.css({'width': '100%', 'background-color': '#007E33'});
+                        strengthText = '密码强度：非常强';
+                        break;
+                }
+                
+                $strengthLabel.text(strengthText);
+            });
+
+            $('#registerForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var confirmPassword = $('#confirmPassword').val();
+
+                // 密码验证
+                if (password !== confirmPassword) {
+                    alert('两次输入的密码不一致！');
+                    return;
+                }
+
+                var $btn = $(this).find('button[type="submit"]');
+                $btn.html('<div class="loading-spinner"></div>注册中...').prop('disabled', true);
+
+                // 发送注册请求
+                fetch('http://localhost:3000/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const messageElement = document.getElementById('message');
+                    if (data.message === '注册成功') {
+                        messageElement.style.color = 'green';
+                        messageElement.textContent = '注册成功！';
+                        setTimeout(function() {
+                            window.location.href = 'login.html'; // 注册成功后跳转到登录页面
+                        }, 500);
+                    } else {
+                        messageElement.style.color = 'red';
+                        messageElement.textContent = data.message; // 显示错误消息
+                    }
+                })
+                .catch(error => {
+                    console.error('注册请求失败', error);
+                    const messageElement = document.getElementById('message');
+                    messageElement.style.color = 'red';
+                    messageElement.textContent = '网络错误，请稍后重试';
+                })
+                .finally(() => {
+                    $btn.html('注 册').prop('disabled', false); // 恢复按钮状态
+                });
+            });
+        });
+    </script>
+</body>
+</html>

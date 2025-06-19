@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录 - 简洁壁纸</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/animate.css/3.7.0/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="Shortcut Icon" href="../img/simple.png"/>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            background: #f5f6fa;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(44, 62, 80, 0.9));
+            padding: 30px 0;
+        }
+        
+        .login-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .login-info {
+            flex: 1;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('../img/pattern.png');
+            opacity: 0.1;
+        }
+        
+        .login-form {
+            flex: 1;
+            padding: 60px 40px;
+            background: white;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            height: auto;
+            border: none;
+            border-bottom: 2px solid #eee;
+            border-radius: 0;
+            box-shadow: none !important;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .floating-label {
+            position: absolute;
+            pointer-events: none;
+            left: 15px;
+            top: 12px;
+            transition: 0.2s ease all;
+            color: #95a5a6;
+        }
+        
+        .form-control:focus ~ .floating-label,
+        .form-control:not(:placeholder-shown) ~ .floating-label {
+            top: -20px;
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+        
+        .btn-login {
+            background: var(--primary-color);
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 50px;
+        }
+        
+        .btn-login:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .feature-item {
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover .feature-icon {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .btn-wechat { background: #7bb32e; }
+        .btn-qq { background: #12b7f5; }
+        .btn-weibo { background: #e6162d; }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                margin: 20px;
+            }
+            .login-info, .login-form {
+                padding: 40px 20px;
+            }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="login-container animated fadeInDown">
+                <div class="login-info">
+                    <h2 style="font-size: 32px; margin-bottom: 40px;">简爱壁纸</h2>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div>
+                            <h4>个性化收藏</h4>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">创建专属收藏夹</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div>
+                            <h4>原图下载</h4>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">高清壁纸随心下载</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div>
+                            <h4>实时更新</h4>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">第一时间获取新壁纸</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="login-form">
+                    <h2 class="text-center" style="color: var(--secondary-color); margin-bottom: 40px;">欢迎回来</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="username" required placeholder=" ">
+                            <label class="floating-label">用户名</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" required placeholder=" ">
+                            <label class="floating-label">密码</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-login btn-primary btn-block">登 录</button>
+                        </div>
+                        <div class="text-center">
+                            <a href="register.html" class="btn btn-link">没有账号？立即注册</a>
+                            <span class="text-muted">|</span>
+                            <a href="index.html" class="btn btn-link">返回首页</a>
+                        </div>
+                    </form>
+                    
+                    <div class="social-login">
+                        <p class="text-muted" style="margin-bottom: 20px;">社交账号登录</p>
+                        <a href="#" class="social-btn btn-wechat"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-btn btn-qq"><i class="fab fa-qq"></i></a>
+                        <a href="#" class="social-btn btn-weibo"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                var $btn = $(this).find('button[type="submit"]');
+                var originalText = $btn.text();
+                
+                $btn.html('<div class="loading-spinner"></div>登录中...').prop('disabled', true);
+                
+                setTimeout(function() {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('username', $('#username').val());
+                    
+                    $btn.html('<i class="fas fa-check"></i> 登录成功');
+                    
+                    setTimeout(function() {
+                        window.location.href = 'index.html';
+                    }, 500);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html> 
